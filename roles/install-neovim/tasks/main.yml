@@ -10,6 +10,7 @@
       - build-essential
     state: present
   when: ansible_facts.os_family == "Debian"
+  become: true
 
 - name: Ensure build dependencies are present
   ansible.builtin.dnf:
@@ -23,6 +24,7 @@
       - make
     state: present
   when: ansible_facts.os_family == "RedHat"
+  become: true
 
 - name: Ensure build dependencies are present
   ansible.builtin.dnf:
@@ -33,6 +35,7 @@
       - curl
     state: present
   when: ansible_facts.os_family == "Archlinux"
+  become: true
 
 - name: Ensure package managed neovim is absent
   ansible.builtin.package:
