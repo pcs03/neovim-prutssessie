@@ -5,6 +5,12 @@
     msg: "Linux distribution is not supported.\nSupported Distribution Families: Archlinux, RedHat, Debian."
   when: ansible_facts.os_family not in ['Archlinux', 'Debian', 'RedHat']
 
+- name: Configure RedHat repos
+  community.general.dnf_config_manager:
+    name: crb
+    state: enabled
+  when: ansible_facts.os_family == 'RedHat'
+
 - name: Ensure build dependencies are present
   ansible.builtin.package:
     name: "{{ nvim_build_dependencies[ansible_facts['os_family']] }}"
