@@ -3,3 +3,29 @@
 # defaults file for install-neovim
 nvim_tarball_url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
 nvim_target_directory: /tmp/nvim
+
+nvim_build_dependencies:
+  Archlinux:
+    - cmake
+    - base-devel
+    - ninja
+    - curl
+  Debian:
+    - cmake
+    - ninja-build
+    - gettext
+    - curl
+    - build-essential
+  RedHat:
+    - cmake
+    - ninja-build
+    - gettext
+    - curl
+    - glibc-gconv-extra
+    - gcc
+    - make
+
+nvim_plugin_dependencies:
+  Archlinux:
+  Debian:
+  RedHat:

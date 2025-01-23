@@ -1,40 +1,14 @@
 ---
 
-- name: Ensure build dependencies are present
-  ansible.builtin.apt:
-    name:
-      - cmake
-      - ninja-build
-      - gettext
-      - curl
-      - build-essential
-    state: present
-  when: ansible_facts.os_family == "Debian"
-  become: true
+- name: Fail if Linux distribution is not supported
+  ansible.builtin.fail:
+    msg: "Linux distribution is not supported.\nSupported Distribution Families: Archlinux, RedHat, Debian."
+  when: ansible_facts.os_family not in ['Archlinux', 'Debian', 'RedHat']
 
 - name: Ensure build dependencies are present
-  ansible.builtin.dnf:
-    name:
-      - cmake
-      - ninja-build
-      - gettext
-      - curl
-      - glibc-gconv-extra
-      - gcc
-      - make
+  ansible.builtin.package:
+    name: "{{ nvim_build_dependencies[ansible_facts['os_family']] }}"
     state: present
-  when: ansible_facts.os_family == "RedHat"
-  become: true
-
-- name: Ensure build dependencies are present
-  ansible.builtin.dnf:
-    name:
-      - cmake
-      - base-devel
-      - ninja
-      - curl
-    state: present
-  when: ansible_facts.os_family == "Archlinux"
   become: true
 
 - name: Ensure package managed neovim is absent
@@ -55,3 +29,8 @@
       CMAKE_BUILD_TYPE: Release
     target: release
   become: true
+
+- name: Remove neovim build files
+  ansible.builtin.file:
+    path: "{{ nvim_target_directory }}"
+    state: absent
