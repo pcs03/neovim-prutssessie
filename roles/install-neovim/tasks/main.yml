@@ -53,6 +53,6 @@
 
 - name: Install neovim
   community.general.make:
-    chdir: {{ nvim_target_directory }}
+    chdir: "{{ nvim_target_directory }}"
     target: install
   become: true
