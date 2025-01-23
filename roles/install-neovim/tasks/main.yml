@@ -27,7 +27,7 @@
     chdir: "{{ nvim_target_directory }}"
     params:
       CMAKE_BUILD_TYPE: Release
-    target: release
+    target: install
   become: true
 
 - name: Remove neovim build files
