@@ -48,14 +48,10 @@
     dest: "{{ nvim_target_directory }}"
     version: release-0.10
 
-- name: Build neovim
+- name: Build and install neovim
   community.general.make:
     chdir: "{{ nvim_target_directory }}"
     params:
-      CMAKE_BUILD_TYPE: RelWithDebInfo
-
-- name: Install neovim
-  community.general.make:
-    chdir: "{{ nvim_target_directory }}"
-    target: install
+      CMAKE_BUILD_TYPE: Release
+    target: release
   become: true
