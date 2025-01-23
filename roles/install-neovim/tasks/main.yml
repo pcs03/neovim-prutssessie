@@ -1,0 +1,58 @@
+---
+
+- name: Ensure build dependencies are present
+  ansible.builtin.apt:
+    name:
+      - cmake
+      - ninja-build
+      - gettext
+      - curl
+      - build-essential
+    state: present
+  when: ansible_facts.os_family == "Debian"
+
+- name: Ensure build dependencies are present
+  ansible.builtin.dnf:
+    name:
+      - cmake
+      - ninja-build
+      - gettext
+      - curl
+      - glibc-gconv-extra
+      - gcc
+      - make
+    state: present
+  when: ansible_facts.os_family == "RedHat"
+
+- name: Ensure build dependencies are present
+  ansible.builtin.dnf:
+    name:
+      - cmake
+      - base-devel
+      - ninja
+      - curl
+    state: present
+  when: ansible_facts.os_family == "Archlinux"
+
+- name: Ensure package managed neovim is absent
+  ansible.builtin.package:
+    name: neovim
+    state: absent
+
+- name: Ensure neovim git repo is present
+  ansible.builtin.git:
+    repo: https://github.com/neovim/neovim
+    dest: "{{ nvim_target_directory }}"
+    version: release-0.10
+
+- name: Build neovim
+  community.general.make:
+    chdir: "{{ nvim_target_directory }}"
+    params:
+      CMAKE_BUILD_TYPE: RelWithDebInfo
+
+- name: Install neovim
+  community.general.make:
+    chdir: {{ nvim_target_directory }}
+    target: install
+  become: true

@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for install-neovim
+nvim_tarball_url: https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+nvim_target_directory: /tmp/nvim

@@ -1,0 +1,11 @@
+---
+- name: Install and configure neovim
+  hosts: localhost
+  tasks:
+    - name: Print OS
+      ansible.builtin.debug:
+        var: ansible_facts['os_family']
+
+    - name: Install neovim
+      ansible.builtin.include_role:
+        name: install-neovim
